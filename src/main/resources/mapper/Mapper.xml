@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.HouseMapper">
+    <!--列表-->
+    <select id="getHouseList" resultType="com.house.entity.House">
+          SELECT ho.*,ty.`name` typeName,ci.name cityName FROM tb_house ho LEFT JOIN tb_type ty ON ho.type_id=ty.id
+          LEFT JOIN th_city ci ON ho.city_id=ci.id
+         <where>
+             <if test="house.city_id!='' and house.city_id!=null">
+                 ho.city_id=#{house.city_id}
+             </if>
+             <if test="house.price==1">
+                 AND ho.price &lt;=1000000
+             </if>
+             <if test="house.price==2">
+                 AND ho.price &lt;=1500000 and ho.price >=2000000
+             </if>
+             <if test="house.price==3">
+                 AND ho.price &lt;=2000000 and ho.price >=2500000
+             </if>
+             <if test="house.type_id!='' and house.type_id!=null">
+                 ho.type_id=#{house.type_id}
+             </if>
+         </where>
+          ORDER BY ho.id
+    </select>
+    <!--地区-->
+    <select id="getCityList" resultType="com.house.entity.City">
+        select * from th_city where parent_id=35
+    </select>
+    <!--类型-->
+    <select id="getTypeList" resultType="com.house.entity.Type">
+        select * from tb_type
+    </select>
+    <!--发布-->
+    <insert id="HouseInsert">
+        insert into tb_house set
+        name=#{name},content=#{content},hall=#{hall},room=#{room},defend=#{defend},city_id=#{city_id},type_id=#{type_id},img=#{img},price=#{price}
+    </insert>
+    <!--编辑-->
+    <update id="HouseUpdate">
+        UPDATE tb_house set
+        name=#{name},content=#{content},hall=#{hall},room=#{room},defend=#{defend},city_id=#{city_id},type_id=#{type_id},img=#{img},price=#{price}
+        WHERE id=#{id}
+    </update>
+    <!--回显-->
+    <select id="HouseShow" resultType="com.house.entity.House">
+        select * from tb_house where id=${id}
+    </select>
+    <!--删除-->
+    <delete id="HouseDel">
+        delete from tb_house where id in(${id})
+    </delete>
+
+</mapper>

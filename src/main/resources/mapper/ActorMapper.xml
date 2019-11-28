@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.ActorMapper">
+    <!--列表-->
+    <select id="getActorList" resultType="com.house.entity.Actor">
+       select a.*,GROUP_CONCAT(h.name)hname from tb_actor a LEFT JOIN tb_actor_house ah ON a.id=ah.aid LEFT JOIN tb_house h ON h.id=ah.hid GROUP BY a.id
+    </select>
+    <!--增高经纪人-->
+    <insert id="ActorInsert">
+        insert into tb_actor set
+        name=#{name},age=#{age},college=#{college},phone=#{phone},img=#{img}
+    </insert>
+    <!--修改经纪人-->
+    <update id="ActorUpdate">
+        update tb_actor set
+         name=#{name},age=#{age},college=#{college},phone=#{phone},img=#{img} where id=#{id}
+    </update>
+    <!--回显-->
+    <select id="ActorShow" resultType="com.house.entity.Actor">
+        select * from tb_actor where id=#{id}
+    </select>
+    <!--删除-->
+    <delete id="ActorDel">
+        delete from tb_actor where id in(${id})
+    </delete>
+    
+</mapper>
