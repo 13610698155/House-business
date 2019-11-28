@@ -2,11 +2,13 @@ package com.house.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.house.entity.Actor;
-import com.house.entity.House;
 import com.house.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 分支
+ */
 @RestController
 @CrossOrigin
 public class ActorController {
